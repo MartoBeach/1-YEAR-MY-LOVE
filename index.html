@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Year My Love ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Página completa */
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #ff69b4; /* Color rosa */
+            margin-bottom: 20px;
+        }
+        iframe {
+            margin: 20px 0;
+            max-width: 80%;
+            border: 3px solid #fff;
+            border-radius: 10px;
+        }
+        #question-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .options button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>1 Year My Love ❤️</h1>
+    <!-- Contenedor del video de YouTube -->
+    <div id="player"></div>
+    
+    <!-- Contenedor de la pregunta (inicialmente oculto) -->
+    <div id="question-container">
+        <p id="question-text">¿Dónde fue que nos cruzamos por primera vez?</p>
+        <div class="options">
+            <!-- Opciones de respuesta -->
+            <button onclick="checkAnswer('A')">A: Bola</button>
+            <button onclick="checkAnswer('B')">B: Río</button>
+            <button onclick="checkAnswer('C')">C: Camboya</button>
+        </div>
+    </div>
+
+    <!-- Cargar la API de YouTube -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+
+        // Esta función es llamada cuando la API de YouTube está lista
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '315',
+                width: '560',
+                videoId: 'j_JbAfnbmvc',  // ID de tu video de YouTube
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // Función para detectar el estado del video
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                // Esperar 1 segundo después de que termine el video para mostrar la pregunta
+                setTimeout(function() {
+                    document.getElementById('question-container').style.display = 'block';
+                }, 1000);  // 1000 milisegundos = 1 segundo
+            }
+        }
+
+        // Función para verificar la respuesta
+        function checkAnswer(selected) {
+            if (selected === "B") {
+                alert("¡Correcto, mi amor! ❤️");
+                document.body.innerHTML = `<h1>¡Felicidades, mi amor! 🎉❤️</h1>`;
+            } else {
+                alert("Respuesta incorrecta. ¡Intenta de nuevo!");
+            }
+        }
+    </script>
+</body>
+</html>
