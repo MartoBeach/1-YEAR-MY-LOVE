@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos Interactivos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 2em;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 90%;
+        }
+
+        video {
+            width: 80%; /* Ajusta el tamaño del video */
+            height: auto;
+            max-width: 600px; /* Tamaño máximo para los videos */
+            margin-bottom: 20px; /* Espacio entre el video y la pregunta */
+        }
+
+        .question-container {
+            display: none;
+            text-align: center;
+        }
+
+        .question-container button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .question-container button:hover {
+            background-color: #555;
+        }
+
+        .message {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Bienvenidos a los Videos Interactivos</h1>
+    <div class="video-container">
+        <!-- Primer video -->
+        <video id="video1" controls>
+            <source src="IMG_1374.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+
+        <!-- Pregunta para el primer video -->
+        <div class="question-container" id="question1">
+            <p>¿Donde nos vismos por primera vez?</p>
+            <button onclick="checkAnswer(1, 'a')">A) Rio</button>
+            <button onclick="checkAnswer(1, 'b')">B) Bola</button>
+            <button onclick="checkAnswer(1, 'c')">C) Jerusalen</button>
+            <div class="message" id="message1"></div>
+        </div>
+
+        <!-- Video 2 y su pregunta (ocultos inicialmente) -->
+        <video id="video2" controls style="display:none;">
+            <source src="video2.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+        <div class="question-container" id="question2" style="display:none;">
+            <p>¿Qué es 2 + 2?</p>
+            <button onclick="checkAnswer(2, 'a')">A) 4</button>
+            <button onclick="checkAnswer(2, 'b')">B) 5</button>
+            <button onclick="checkAnswer(2, 'c')">C) 3</button>
+            <div class="message" id="message2"></div>
+        </div>
+    </div>
+
+    <script>
+        // Variable para saber cuál video está activo
+        let currentVideo = 1;
+
+        // Función que se ejecuta cuando el video termina
+        function videoEnded(videoNumber) {
+            // Muestra la pregunta correspondiente al video actual
+            document.getElementById('question' + videoNumber).style.display = 'block';
+        }
+
+        // Añadir evento para que cuando el primer video termine, se muestre la pregunta
+        document.getElementById('video1').addEventListener('ended', function() {
+            videoEnded(1);
+        });
+
+        // Añadir evento para que cuando el segundo video termine, se muestre la pregunta
+        document.getElementById('video2').addEventListener('ended', function() {
+            videoEnded(2);
+        });
+
+        // Función para verificar la respuesta y pasar al siguiente video
+        function checkAnswer(videoNumber, answer) {
+            let correctAnswer = (videoNumber === 1 && answer === 'a') || (videoNumber === 2 && answer === 'a');
+            let message = document.getElementById('message' + videoNumber);
+
+            if (correctAnswer) {
+                message.textContent = '¡Respuesta correcta! El siguiente video está cargando...';
+                message.style.color = 'green';
+                
+                // Ocultar la pregunta y el video actual
+                document.getElementById('question' + videoNumber).style.display = 'none';
+
+                if (videoNumber === 1) {
+                    document.getElementById('video1').style.display = 'none';
+                    document.getElementById('video2').style.display = 'block'; // Mostrar siguiente video
+                } else {
+                    message.textContent = '¡Todos los videos han terminado! Gracias por participar.';
+                }
+            } else {
+                message.textContent = 'Respuesta incorrecta. Intenta nuevamente.';
+                message.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
